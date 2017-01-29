@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <item
+        app:showAsAction="always"
+        android:title=""
+        android:icon="@drawable/ic_sort_24dp">
+        <menu>
+            <group android:id="@+id/group_sort">
+                <item android:title="@string/speed_menu"
+                    android:id="@+id/speed_sort"
+                    android:icon="@drawable/ic_sort_item_48dp"
+                    android:checked="true" />
+                <item android:title="@string/reaction_menu"
+                    android:id="@+id/reaction_sort"
+                    android:icon="@drawable/ic_sort_item_48dp"
+                    android:checked="false" />
+                <item android:title="@string/acceleration_menu"
+                    android:id="@+id/acceleration_sort"
+                    android:icon="@drawable/ic_sort_item_48dp"
+                    android:checked="false" />
+                <item android:title="@string/date_menu"
+                    android:id="@+id/date_sort"
+                    android:icon="@drawable/ic_sort_item_48dp"
+                    android:checked="false" />
+            </group>
+        </menu>
+    </item>
+
+</menu>

@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.artioml.practice.PunchResultActivity"
+    android:orientation="vertical"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/settings_panel_height">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/punchTypeResultTextView"
+            android:layout_weight="1"
+            android:background="@drawable/parameters_background"
+            android:layout_marginEnd="@dimen/half_margin"
+            android:textSize="16sp"
+            android:gravity="center"
+            android:textColor="@android:color/black" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/parameters_background"
+            android:layout_marginStart="@dimen/half_margin"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_left_hand"
+                android:id="@+id/handsResultImageView"
+                android:layout_weight="1" />
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_gravity="center">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    app:srcCompat="@drawable/ic_gloves_on"
+                    android:id="@+id/glovesResultImageView"
+                    android:layout_gravity="center"
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:text="90"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/glovesResultTextView"
+                    android:gravity="center"
+                    android:layout_gravity="bottom|center_horizontal"
+                    android:textColor="@android:color/black" />
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_punch_with_step"
+                android:id="@+id/positionResultImageView"
+                android:layout_weight="1"
+                android:layout_gravity="center" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <include
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            layout="@layout/result_item"
+            android:id="@+id/speedResultItem" />
+
+        <include
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            layout="@layout/result_item"
+            android:id="@+id/reactionResultItem" />
+
+        <include
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            layout="@layout/result_item"
+            android:id="@+id/accelerationResultItem" />
+    </LinearLayout>
+
+    <Button
+        android:text="@android:string/ok"
+        android:layout_width="@dimen/button_width"
+        android:layout_height="@dimen/button_height"
+        android:id="@+id/resultOkButton"
+        android:background="@drawable/button_background_red"
+        android:layout_gravity="center"
+        android:layout_marginBottom="@dimen/normal_margin"
+        android:layout_marginTop="@dimen/double_margin"
+        android:textSize="18sp"
+        android:textColor="@android:color/white" />
+
+</LinearLayout>

@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/dialogMainSettings"
+    style="@style/MainSettingsTheme"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:elevation="1dp"
+    android:orientation="vertical"
+    android:gravity="top">
+
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageTable">
+
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/handsRadioGroup"
+            android:orientation="horizontal"
+            android:gravity="center_horizontal">
+
+            <RadioButton
+                android:text="@string/left_hand_item"
+                android:layout_width="@dimen/main_settings_item_size"
+                android:layout_height="@dimen/main_settings_item_size"
+                android:id="@+id/leftHandButton"
+                android:drawableTop="@drawable/ic_left_hand"
+                android:layout_gravity="center_horizontal"
+                android:padding="@dimen/half_margin"
+                android:paddingBottom="@dimen/half_margin"
+                android:layout_margin="@dimen/half_margin"
+                android:button="@drawable/main_settings_item"
+                style="@style/MainSettingsItemTheme" />
+
+            <RadioButton
+                android:text="@string/right_hand_item"
+                android:layout_width="@dimen/main_settings_item_size"
+                android:layout_height="@dimen/main_settings_item_size"
+                android:id="@+id/rightHandButton"
+                android:drawableTop="@drawable/ic_right_hand"
+                android:textOff="@string/right_hand_item"
+                android:textOn="@string/right_hand_item"
+                android:layout_gravity="center_horizontal"
+                android:layout_margin="@dimen/half_margin"
+                android:button="@drawable/main_settings_item"
+                style="@style/MainSettingsItemTheme" />
+        </RadioGroup>
+
+        <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/glovesRadioGroup"
+        android:orientation="horizontal"
+            android:gravity="center_horizontal">
+
+            <RadioButton
+                android:text="@string/glove"
+                android:layout_width="@dimen/main_settings_item_size"
+                android:layout_height="@dimen/main_settings_item_size"
+                android:id="@+id/glovesOnButton"
+                android:button="@drawable/main_settings_item"
+                style="@style/MainSettingsItemTheme"
+                android:textOff="@string/glove"
+                android:textOn="@string/glove"
+                android:drawableTop="@drawable/ic_gloves_on"
+                android:layout_gravity="center_horizontal"
+                android:layout_margin="@dimen/half_margin" />
+
+            <RadioButton
+                android:text="@string/no"
+                android:layout_width="@dimen/main_settings_item_size"
+                android:layout_height="@dimen/main_settings_item_size"
+                android:id="@+id/glovesOffButton"
+                android:button="@drawable/main_settings_item"
+                style="@style/MainSettingsItemTheme"
+                android:textOff="@string/no"
+                android:textOn="@string/no"
+                android:drawableTop="@drawable/ic_gloves_off"
+                android:layout_gravity="center_horizontal"
+                android:layout_margin="@dimen/half_margin" />
+
+        </RadioGroup>
+
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/positionRadioGroup"
+            android:orientation="horizontal"
+            android:gravity="center_horizontal">
+
+            <RadioButton
+                android:text="@string/with_step"
+                android:layout_width="@dimen/main_settings_item_size"
+                android:layout_height="@dimen/main_settings_item_size"
+                android:id="@+id/withStepButton"
+                android:button="@drawable/main_settings_item"
+                style="@style/MainSettingsItemTheme"
+                android:textOff="@string/with_step"
+                android:textOn="@string/with_step"
+                android:drawableTop="@drawable/ic_punch_with_step"
+                android:layout_gravity="center_horizontal"
+                android:layout_margin="@dimen/half_margin" />
+
+            <RadioButton
+                android:text="@string/without_step"
+                android:layout_width="@dimen/main_settings_item_size"
+                android:layout_height="@dimen/main_settings_item_size"
+                android:id="@+id/withoutStepButton"
+                android:button="@drawable/main_settings_item"
+                style="@style/MainSettingsItemTheme"
+                android:textOff="@string/without_step"
+                android:textOn="@string/without_step"
+                android:drawableTop="@drawable/ic_punch_without_step"
+                android:layout_gravity="center_horizontal"
+                android:layout_margin="@dimen/half_margin" />
+
+        </RadioGroup>
+    </TableLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/glovesWeight"
+        android:gravity="center_horizontal"
+        android:padding="@dimen/half_margin">
+
+        <TextView
+            android:text="@string/gloves_weight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:padding="@dimen/half_margin"
+            android:gravity="end|center_vertical" />
+
+        <EditText
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal"
+            android:ems="10"
+            android:textColor="@color/colorGreyDarkest"
+            android:id="@+id/weightEditText"
+            android:padding="@dimen/half_margin" />
+
+        <TextView
+            android:text="@string/oz"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/half_margin"
+            android:textSize="18sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/punchType"
+        android:gravity="center_horizontal"
+        android:padding="@dimen/half_margin">
+
+        <TextView
+            android:text="@string/punch_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:gravity="end|center_vertical"
+            android:padding="@dimen/half_margin" />
+
+        <Spinner
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/punchTypeSpinner"
+            android:entries="@array/punch_type_list"
+            style="@style/Base.Widget.AppCompat.Spinner.Underlined"
+            android:padding="@dimen/half_margin"
+            android:spinnerMode="dialog" />
+    </LinearLayout>
+
+    <ImageButton
+        android:id="@+id/menuTopButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorDefaultBackground"
+        android:src="@drawable/ic_menu_arrow_bottom"
+        android:paddingTop="@dimen/half_margin" />
+
+</LinearLayout>

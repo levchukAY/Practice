@@ -1,0 +1,51 @@
+<resources>
+
+    <string name="app_name">Сила удара</string>
+
+    <!--content_main.xml-->
+    <string name="hit_button">УДАР</string>
+    <string name="community">СООБЩЕСТВО</string>
+    <string name="history">ИСТОРИЯ</string>
+
+    <!--content_license.xml-->
+    <string name="license_title">Лицензионное соглашение</string>
+    <string name="license_agreement">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</string>
+    <string name="accept">Принять</string>
+
+    <!--dialog_main_settings.xml-->
+    <string name="left_hand_item">левая</string>
+    <string name="right_hand_item">правая</string>
+    <string name="glove">перчатка</string>
+    <string name="no">нет</string>
+    <string name="with_step">на шаге</string>
+    <string name="without_step">на месте</string>
+    <string name="punch_type">тип удара</string>
+    <string name="gloves_weight">вес перчатки</string>
+    <string name="oz">oz</string>
+
+    <!--result_item.xml-->
+    <string name="bad">плохо</string>
+    <string name="middle">средне</string>
+    <string name="good">хорошо</string>
+
+    <!--activity_punch_result.xml-->
+    <string name="speed_title">скорость\nудара</string>
+    <string name="reaction_title">скорость\nреакции</string>
+    <string name="acceleration_title">ускорение</string>
+    <string name="speed_result">%.2f м/с</string>
+    <string name="reaction_result">%.2f с</string>
+    <string name="acceleration_result">%.2f м/с^2<!--&lt;sup&gt;&lt;small&gt;&lt;small&gt;2&lt;/small&gt;&lt;/small&gt;&lt;/sup&gt;--></string>
+
+    <!--history_item.xml-->
+    <string name="speed_title_h">Cкорость удара</string>
+    <string name="reaction_title_h">Cкорость реакции</string>
+    <string name="title_activity_history">История</string>
+
+    <!--menu_history.xml-->
+    <string name="speed_menu">Cкорость удара</string>
+    <string name="reaction_menu">Cкорость реакции</string>
+    <string name="acceleration_menu">Ускорение</string>
+    <string name="date_menu">Дата</string>
+
+
+</resources>

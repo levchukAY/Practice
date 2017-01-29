@@ -1,0 +1,31 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">@dimen/normal_margin</dimen>
+    <dimen name="activity_vertical_margin">@dimen/normal_margin</dimen>
+
+    <!--Different margins-->
+    <dimen name="double_margin">32dp</dimen>
+    <dimen name="double_small_margin">24dp</dimen>
+    <dimen name="normal_margin">16dp</dimen>
+    <dimen name="half_margin">8dp</dimen>
+    <dimen name="fourth_margin">4dp</dimen>
+
+    <!--Width and height-->
+    <dimen name="stroke_width">4dp</dimen>
+    <dimen name="button_width">150dp</dimen>
+    <dimen name="button_height">40dp</dimen>
+    <dimen name="main_settings_item_size">80dp</dimen>
+
+    <!--Draw parameters-->
+    <dimen name="button_radius">5dp</dimen>
+
+    <!--Text size-->
+    <dimen name="normal_text_size">14sp</dimen>
+    <dimen name="punch_button_text_size">40sp</dimen>
+    <dimen name="button_text_size">14sp</dimen>
+    <dimen name="main_settings_text_size">16sp</dimen>
+    <dimen name="result_text_size">24sp</dimen>
+    <dimen name="seek_bar_text_size">12sp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="settings_panel_height">60dp</dimen>
+</resources>
