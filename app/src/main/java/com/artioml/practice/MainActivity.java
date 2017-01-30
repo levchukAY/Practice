@@ -23,6 +23,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -228,24 +229,23 @@ public class MainActivity extends AppCompatActivity {
                 R.array.punch_type_list)[sharedPreferences.getInt(PUNCH_TYPE, 0)]);
 
         String hand = "ic_" + sharedPreferences.getString(HAND, "right") + "_hand";
-        ((TextView) findViewById(R.id.handView)).setCompoundDrawablesWithIntrinsicBounds(null,
-                ContextCompat.getDrawable(MainActivity.this,
-                        getResources().getIdentifier(hand, "drawable", getPackageName())), null, null);
+        ((ImageView) findViewById(R.id.handView)).setImageDrawable(ContextCompat.getDrawable(this,
+                getResources().getIdentifier(hand, "drawable", getPackageName())));
 
         String gloves = "ic_gloves_" + sharedPreferences.getString(GLOVES, "off");
-        ((TextView) findViewById(R.id.glovesView)).setCompoundDrawablesWithIntrinsicBounds(null,
-                ContextCompat.getDrawable(MainActivity.this,
-                        getResources().getIdentifier(gloves, "drawable", getPackageName())), null, null);
+        ((ImageView) findViewById(R.id.glovesView)).setImageDrawable(ContextCompat.getDrawable(this,
+                getResources().getIdentifier(gloves, "drawable", getPackageName())));
 
         if (gloves.compareTo("ic_gloves_off") == 0)
-            ((TextView) findViewById(R.id.glovesView)).setText("");
-        else
-            ((TextView) findViewById(R.id.glovesView)).setText(sharedPreferences.getString(GLOVES_WEIGHT, "80"));
+            findViewById(R.id.weightView).setVisibility(View.GONE);
+        else {
+            findViewById(R.id.weightView).setVisibility(View.VISIBLE);
+            ((TextView) findViewById(R.id.weightView)).setText(sharedPreferences.getString(GLOVES_WEIGHT, "80"));
+        }
 
         String position = "ic_punch_" +  sharedPreferences.getString(POSITION, "with") + "_step";
-        ((TextView) findViewById(R.id.positionView)).setCompoundDrawablesWithIntrinsicBounds(null,
-                ContextCompat.getDrawable(MainActivity.this,
-                        getResources().getIdentifier(position, "drawable", getPackageName())), null, null);
+        ((ImageView) findViewById(R.id.positionView)).setImageDrawable(ContextCompat.getDrawable(this,
+                getResources().getIdentifier(position, "drawable", getPackageName())));
     }
 
 }

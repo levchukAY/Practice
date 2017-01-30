@@ -28,4 +28,6 @@
     <dimen name="seek_bar_text_size">12sp</dimen>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="settings_panel_height">60dp</dimen>
+    <dimen name="punch_button_size">180dp</dimen>
+    <dimen name="punch_button_margin">64dp</dimen>
 </resources>

@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/content_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="@dimen/activity_vertical_margin"
@@ -11,7 +10,8 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.artioml.practice.MainActivity"
-    tools:showIn="@layout/activity_main">
+    tools:showIn="@layout/activity_main"
+    android:orientation="vertical">
 
     <LinearLayout
         android:id="@+id/allSettings"
@@ -24,109 +24,127 @@
             android:id="@+id/punchTypeView"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginEnd="@dimen/fourth_margin"
             android:gravity="center"
             android:layout_weight="3"
             android:textColor="@color/colorTextBlack"
             android:background="@drawable/parameters_background"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            android:layout_marginStart="@dimen/fourth_margin"
+            android:layout_marginEnd="@dimen/fourth_margin" />
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginStart="4dp"
-            android:layout_marginEnd="4dp"
             android:layout_weight="5"
             android:orientation="horizontal"
             android:background="@drawable/parameters_background"
-            android:gravity="center">
-            <TextView
+            android:gravity="center"
+            android:layout_marginStart="@dimen/fourth_margin"
+            android:layout_marginEnd="@dimen/fourth_margin">
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_left_hand"
                 android:id="@+id/handView"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginStart="6dp"
-                android:layout_marginEnd="3dp"
-                android:layout_marginTop="@dimen/fourth_margin"
-                android:scaleX="0.9"
-                android:scaleY="0.9" />
+                android:layout_weight="1"
+                android:layout_margin="@dimen/fourth_margin"
+                android:layout_gravity="center" />
 
-            <TextView
-                android:id="@+id/glovesView"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_marginStart="3dp"
-                android:layout_marginEnd="3dp"
-                android:layout_marginTop="@dimen/fourth_margin"
-                android:scaleX="0.8"
-                android:scaleY="0.8"
-                android:textSize="14sp"
-                android:gravity="center|bottom"
-                android:textColor="@color/colorTextBlack"
-                android:textAlignment="gravity" />
+                android:layout_weight="1">
 
-            <TextView
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/ic_gloves_on"
+                    android:id="@+id/glovesView"
+                    android:layout_weight="1"
+                    android:layout_gravity="center"
+                    android:layout_margin="2dp" />
+
+                <TextView
+                    android:text="100"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/weightView"
+                    android:layout_weight="1"
+                    android:gravity="center" />
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_punch_with_step"
                 android:id="@+id/positionView"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginStart="3dp"
-                android:layout_marginEnd="6dp"
-                android:layout_marginTop="@dimen/fourth_margin"
-                android:scaleX="0.9"
-                android:scaleY="0.9" />
+                android:layout_weight="1"
+                android:layout_margin="@dimen/fourth_margin"
+                android:layout_gravity="center" />
         </LinearLayout>
 
         <ImageButton
             android:id="@+id/settingsButton"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginStart="@dimen/fourth_margin"
             android:layout_weight="1.5"
             android:background="@drawable/button_background_yellow"
-            android:padding="4dp"
             android:scaleType="fitCenter"
-            android:src="@drawable/ic_settings_24dp" />
+            android:src="@drawable/ic_settings_24dp"
+            android:layout_marginStart="@dimen/fourth_margin"
+            android:layout_marginEnd="@dimen/fourth_margin" />
 
     </LinearLayout>
 
-    <Button
-        android:id="@+id/punchButton"
-        android:layout_width="180dp"
-        android:layout_height="180dp"
-        android:layout_below="@+id/allSettings"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="40dp"
-        android:background="@drawable/punch_button"
-        android:text="@string/hit_button"
-        android:textColor="@android:color/white"
-        android:textSize="@dimen/punch_button_text_size"
-        android:textStyle="bold"
-        android:typeface="normal" />
     <!--android:gravity="center_vertical|center_horizontal"-->
 
     <LinearLayout
-        android:layout_width="@dimen/button_width"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
         <Button
-            android:id="@+id/communityButton"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/button_height"
-            android:background="@drawable/button_background_yellow"
-            android:text="@string/community"
-            android:typeface="normal" />
-
-        <Button
-            android:id="@+id/historyButton"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/button_height"
-            android:background="@drawable/button_background_yellow"
-            android:text="@string/history"
+            android:id="@+id/punchButton"
+            android:layout_width="@dimen/punch_button_size"
+            android:layout_height="@dimen/punch_button_size"
+            android:background="@drawable/punch_button"
+            android:text="@string/hit_button"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/punch_button_text_size"
+            android:textStyle="bold"
             android:typeface="normal"
-            android:layout_marginTop="@dimen/half_margin"
-            android:layout_marginBottom="@dimen/half_margin" />
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/punch_button_margin" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="bottom|center_horizontal">
+
+            <Button
+                android:id="@+id/communityButton"
+                android:layout_width="@dimen/button_width"
+                android:layout_height="@dimen/button_height"
+                android:background="@drawable/button_background_yellow"
+                android:text="@string/community"
+                android:typeface="normal"
+                android:layout_gravity="bottom|center_horizontal" />
+
+            <Button
+                android:id="@+id/historyButton"
+                android:layout_width="@dimen/button_width"
+                android:layout_height="@dimen/button_height"
+                android:background="@drawable/button_background_yellow"
+                android:text="@string/history"
+                android:typeface="normal"
+                android:layout_marginTop="@dimen/half_margin"
+                android:layout_marginBottom="@dimen/half_margin"
+                android:layout_gravity="bottom|center_horizontal" />
+        </LinearLayout>
     </LinearLayout>
 
-</RelativeLayout>
+</LinearLayout>

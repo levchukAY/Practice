@@ -41,7 +41,8 @@
                 android:layout_height="wrap_content"
                 app:srcCompat="@drawable/ic_left_hand"
                 android:id="@+id/handsResultImageView"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:layout_margin="@dimen/fourth_margin" />
 
             <LinearLayout
                 android:orientation="vertical"
@@ -56,7 +57,8 @@
                     app:srcCompat="@drawable/ic_gloves_on"
                     android:id="@+id/glovesResultImageView"
                     android:layout_gravity="center"
-                    android:layout_weight="1" />
+                    android:layout_weight="1"
+                    android:layout_margin="2dp" />
 
                 <TextView
                     android:text="90"
@@ -74,7 +76,8 @@
                 app:srcCompat="@drawable/ic_punch_with_step"
                 android:id="@+id/positionResultImageView"
                 android:layout_weight="1"
-                android:layout_gravity="center" />
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/fourth_margin" />
 
         </LinearLayout>
     </LinearLayout>
