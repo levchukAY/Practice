@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
-import android.support.design.widget.BottomSheetDialog;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.view.Gravity;
@@ -28,38 +27,37 @@ import android.widget.ToggleButton;
  * Created by Artiom L on 27.01.2017.
  */
 
-public class MainSettingsDialog extends /*BottomSheet*/Dialog {
+public class HistorySettingsDialog extends Dialog {
 
-    private static final String MAIN_SETTINGS = "mainSettings";
+    private static final String HISTORY_SETTINGS = "historySettings";
     private static final String HAND = "pref_hand";
     private static final String GLOVES = "pref_gloves";
-    private static final String GLOVES_WEIGHT = "pref_glovesWeight";
     private static final String POSITION = "pref_position";
     private static final String PUNCH_TYPE = "pref_punchType";
 
     private Context context;
-    private EditText weightEditText;
-    private View glovesWeight;
     private Spinner spinner;
 
     private RadioButton leftHandButton;
     private RadioButton rightHandButton;
+    private RadioButton dmHandButton;
     private RadioButton glovesOnButton;
     private RadioButton glovesOffButton;
+    private RadioButton glovesDmButton;
     private RadioButton withStepButton;
     private RadioButton withoutStepButton;
+    private RadioButton dmStepButton;
 
     private String hand;
     private String gloves;
     private String position;
 
-
-    public MainSettingsDialog(final Context context) {
-        //super(context, R.style.SettingsTheme);
+    public HistorySettingsDialog(final Context context) {
+        //super(context, R.style.MainSettingsTheme);
         super(context);
 
         this.context = context;
-        View contentView = getLayoutInflater().inflate(R.layout.dialog_main_settings, null);
+        View contentView = getLayoutInflater().inflate(R.layout.dialog_history_settings, null);
         setContentView(contentView);
         setCancelable(true);
         getWindow().setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -67,7 +65,7 @@ public class MainSettingsDialog extends /*BottomSheet*/Dialog {
 
         init();
 
-        glovesOnButton.setOnCheckedChangeListener(onCheckedChangeListener);
+        /*glovesOnButton.setOnCheckedChangeListener(onCheckedChangeListener);
         glovesOffButton.setOnCheckedChangeListener(onCheckedChangeListener);
 
         rightHandButton.setOnCheckedChangeListener(onCheckedChangeListener);
@@ -75,10 +73,10 @@ public class MainSettingsDialog extends /*BottomSheet*/Dialog {
 
         withoutStepButton.setOnCheckedChangeListener(onCheckedChangeListener);
         withStepButton.setOnCheckedChangeListener(onCheckedChangeListener);
-
+*/
         setChecked();
 
-        findViewById(R.id.menuTopButton).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.menuTopHistoryButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 commitChanges();
@@ -89,12 +87,12 @@ public class MainSettingsDialog extends /*BottomSheet*/Dialog {
         setOnDismissListener(new DialogInterface.OnDismissListener(){
             @Override
             public void onDismiss(DialogInterface dialog) {
-                ((MainActivity) context).onResume();
+                ((HistoryActivity) context).onResume();
             }
         });
     }
 
-    final CompoundButton.OnCheckedChangeListener onCheckedChangeListener =
+    /*final CompoundButton.OnCheckedChangeListener onCheckedChangeListener =
             new CompoundButton.OnCheckedChangeListener() {
 
                 @Override
@@ -114,15 +112,13 @@ public class MainSettingsDialog extends /*BottomSheet*/Dialog {
                             break;
                         case (R.id.glovesOnButton):
                             changeFilter(glovesOffButton, glovesOnButton, b);
-                            glovesWeight.setVisibility(b ? View.VISIBLE : View.GONE);
                             break;
                         case (R.id.glovesOffButton):
                             changeFilter(glovesOffButton, glovesOnButton, !b);
-                            glovesWeight.setVisibility(!b ? View.VISIBLE : View.GONE);
                             break;
                     }
                 }
-    };
+            };
 
     private void changeFilter(RadioButton firstButton, RadioButton secondButton, boolean b) {
         if (b) applyFilter(firstButton, secondButton);
@@ -139,52 +135,58 @@ public class MainSettingsDialog extends /*BottomSheet*/Dialog {
         drawable = secondButton.getCompoundDrawables()[1];
         drawable.clearColorFilter();
         secondButton.setCompoundDrawables(null, drawable, null, null);
-    }
+    }*/
 
     private void init() {
         SharedPreferences sharedPreferences =
-                context.getSharedPreferences(MAIN_SETTINGS, Context.MODE_PRIVATE);
-        hand = sharedPreferences.getString(HAND, "right");
-        gloves = sharedPreferences.getString(GLOVES, "on");
-        position = sharedPreferences.getString(POSITION, "without");
+                context.getSharedPreferences(HISTORY_SETTINGS, Context.MODE_PRIVATE);
+        hand = sharedPreferences.getString(HAND, "dm");
+        gloves = sharedPreferences.getString(GLOVES, "dm");
+        position = sharedPreferences.getString(POSITION, "dm");
 
-        leftHandButton = (RadioButton) findViewById(R.id.leftHandButton);
-        rightHandButton = (RadioButton) findViewById(R.id.rightHandButton);
-        glovesOnButton = (RadioButton) findViewById(R.id.glovesOnButton);
-        glovesOffButton = (RadioButton) findViewById(R.id.glovesOffButton);
-        withStepButton = (RadioButton) findViewById(R.id.withStepButton);
-        withoutStepButton = (RadioButton) findViewById(R.id.withoutStepButton);
+        leftHandButton = (RadioButton) findViewById(R.id.leftHandHistoryButton);
+        rightHandButton = (RadioButton) findViewById(R.id.rightHandHistoryButton);
+        dmHandButton = (RadioButton) findViewById(R.id.dmHandHistoryButton);
+        glovesOnButton = (RadioButton) findViewById(R.id.glovesOnHistoryButton);
+        glovesOffButton = (RadioButton) findViewById(R.id.glovesOffHistoryButton);
+        glovesDmButton = (RadioButton) findViewById(R.id.glovesDmHistoryButton);
+        withStepButton = (RadioButton) findViewById(R.id.withStepHistoryButton);
+        withoutStepButton = (RadioButton) findViewById(R.id.withoutStepHistoryButton);
+        dmStepButton = (RadioButton) findViewById(R.id.dmStepHistoryButton);
 
-        weightEditText = (EditText) findViewById(R.id.weightEditText);
-        weightEditText.setText(sharedPreferences.getString(GLOVES_WEIGHT, "80"));
-
-        glovesWeight = findViewById(R.id.glovesWeight);
-
-        spinner = (Spinner) findViewById(R.id.punchTypeSpinner);
+        spinner = (Spinner) findViewById(R.id.punchTypeHistorySpinner);
         spinner.setSelection(sharedPreferences.getInt(PUNCH_TYPE, 0));
     }
 
     private void setChecked() {
         if (hand.compareTo("left") == 0)
             leftHandButton.setChecked(true);
-        else rightHandButton.setChecked(true);
+        else if (hand.compareTo("right") == 0)
+            rightHandButton.setChecked(true);
+        else dmHandButton.setChecked(true);
 
         if (gloves.compareTo("on") == 0)
             glovesOnButton.setChecked(true);
-        else glovesOffButton.setChecked(true);
+        else if (gloves.compareTo("off") == 0)
+            glovesOffButton.setChecked(true);
+        else glovesDmButton.setChecked(true);
 
         if (position.compareTo("with") == 0)
             withStepButton.setChecked(true);
-        else withoutStepButton.setChecked(true);
+        else if (position.compareTo("without") == 0)
+            withoutStepButton.setChecked(true);
+        else dmStepButton.setChecked(true);
     }
 
     private void commitChanges(){
-        context.getSharedPreferences(MAIN_SETTINGS, Context.MODE_PRIVATE)
+        context.getSharedPreferences(HISTORY_SETTINGS, Context.MODE_PRIVATE)
                 .edit()
-                .putString(HAND, leftHandButton.isChecked() ? "left" : "right")
-                .putString(GLOVES, glovesOnButton.isChecked() ? "on" : "off")
-                .putString(POSITION, withStepButton.isChecked() ? "with" : "without")
-                .putString(GLOVES_WEIGHT, weightEditText.getText().toString())
+                .putString(HAND, leftHandButton.isChecked() ? "left" :
+                        rightHandButton.isChecked() ?"right" : "dm")
+                .putString(GLOVES, glovesOnButton.isChecked() ? "on" :
+                        glovesOffButton.isChecked() ? "off" : "dm")
+                .putString(POSITION, withStepButton.isChecked() ? "with" :
+                        withoutStepButton.isChecked() ? "without" : "dm")
                 .putInt(PUNCH_TYPE, spinner.getSelectedItemPosition())
                 .apply();
     }

@@ -47,7 +47,7 @@ public class PracticeDatabaseHelper extends SQLiteOpenHelper {
                 History.COLUMN_SPEED + " REAL, " +
                 History.COLUMN_REACTION + " REAL, " +
                 History.COLUMN_ACCELERATION + " REAL, " +
-                History.COLUMN_DATE + " TEXT NOT NULL);";
+                History.COLUMN_DATE + " DATETIME NOT NULL);";
         sqLiteDatabase.execSQL(HISTORY_TABLE_SQL);
     }
 

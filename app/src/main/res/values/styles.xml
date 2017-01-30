@@ -13,7 +13,7 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="MainSettingsTheme" parent="Theme.Design.BottomSheetDialog">
+    <style name="SettingsTheme" parent="Theme.Design.BottomSheetDialog">
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:background">@android:color/white</item>
         <item name="android:textColor">@android:color/darker_gray</item>

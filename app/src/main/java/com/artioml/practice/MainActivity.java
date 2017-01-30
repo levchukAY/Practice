@@ -3,20 +3,30 @@ package com.artioml.practice;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.ActivityInfo;
+import android.graphics.Color;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
+import android.media.AudioAttributes;
+import android.media.SoundPool;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.SparseIntArray;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.Collections;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -28,7 +38,20 @@ public class MainActivity extends AppCompatActivity {
     private static final String PUNCH_TYPE = "pref_punchType";
     private static final String IS_FIRST_TIME = "pref_isFirstTime";
 
-    private MainSettingsDialog mainSettingsDialog;
+    private final int ACCELERATION_THRESSHOLD = 20;
+    private final int REACTION_THRESSHOLD = 10;
+
+    private Button punchButton;
+
+    private SoundPool soundPool;
+    private SparseIntArray soundMap;
+
+    private float currentAcceleration;
+    private float maxAcceleration;
+    private float reaction;
+    private float count;
+
+    private ArrayList<Float> data;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,33 +60,55 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        mainSettingsDialog = new MainSettingsDialog(this);
-
         ImageButton settingsButton = (ImageButton) findViewById(R.id.settingsButton);
         settingsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                MainSettingsDialog mainSettingsDialog = new MainSettingsDialog(MainActivity.this);
                 mainSettingsDialog.show();
             }
         });
 
         fillSettingsPanel();
 
-        Button punchButton = (Button) findViewById(R.id.punchButton);
+        AudioAttributes.Builder attrBuilder = new AudioAttributes.Builder();
+        attrBuilder.setUsage(AudioAttributes.USAGE_GAME);
+
+        SoundPool.Builder builder = new SoundPool.Builder();
+        builder.setMaxStreams(1);
+        builder.setAudioAttributes(attrBuilder.build());
+
+        soundPool = builder.build();
+
+        soundMap = new SparseIntArray(1);
+        soundMap.put(0, soundPool.load(getBaseContext(), R.raw.fire, 1));
+
+        punchButton = (Button) findViewById(R.id.punchButton);
         punchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent punchResultIntent = new Intent(MainActivity.this, PunchResultActivity.class);
 
-                float speed = (float) Math.random() * 100;
-                float reaction = (float) Math.random() * 100;
-                float acceleration = (float) Math.random() * 100;
+                punchButton.setEnabled(false);
+                (new Handler()).postDelayed(new Runnable() {
 
-                punchResultIntent.putExtra("speed", speed);
-                punchResultIntent.putExtra("reaction", reaction);
-                punchResultIntent.putExtra("acceleration", acceleration);
+                    @Override
+                    public void run() {
+                        soundPool.play(soundMap.get(0), 1, 1, 1, 0, 1f);
 
-                startActivity(punchResultIntent);
+                        reaction = 0.00f;
+                        maxAcceleration = 0;
+                        count = 0;
+
+                        data = new ArrayList<>();
+
+                        SensorManager sensorManager =
+                                (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+
+                        sensorManager.registerListener(sensorEventListener,
+                                sensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION),
+                                1000);
+                    }
+                }, 2000);
             }
         });
 
@@ -106,7 +151,74 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         fillSettingsPanel();
+        punchButton.setEnabled(true);
         super.onResume();
+    }
+
+    @Override
+    protected  void onPause() {
+        super.onPause();
+
+        SensorManager sensorManager =
+                (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+
+        sensorManager.unregisterListener(sensorEventListener,
+                sensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION));
+    }
+    private final SensorEventListener sensorEventListener = new SensorEventListener() {
+
+        @Override
+        public void onSensorChanged(SensorEvent event) {
+
+            count++;
+            float x = event.values[0] ;
+            float y = event.values[1];
+            float z = event.values[2];
+
+            // Сохранить предыдущие данные ускорения
+            //lastAcceleration = currentAcceleration;
+
+            // Вычислить текущее ускорение
+            currentAcceleration = (float) Math.sqrt(x * x + y * y + z * z);
+
+            if (currentAcceleration > 5)
+                data.add(currentAcceleration);
+
+            // Вычислить изменение ускорения
+            //acceleration = currentAcceleration * (currentAcceleration - lastAcceleration);
+
+            maxAcceleration = Math.max(maxAcceleration, currentAcceleration);
+            //m = Math.max(m, currentAcceleration);
+
+            if (reaction == 0 && currentAcceleration > REACTION_THRESSHOLD)
+                reaction = count / 50;
+
+            if (maxAcceleration > ACCELERATION_THRESSHOLD && currentAcceleration < 5) {
+
+                Intent punchResultIntent = new Intent(MainActivity.this, PunchResultActivity.class);
+
+                punchResultIntent.putExtra("speed", countSpeed(data));
+                punchResultIntent.putExtra("reaction", reaction);
+                punchResultIntent.putExtra("acceleration", maxAcceleration);
+
+                startActivity(punchResultIntent);
+            }
+        }
+
+        @Override
+        public void onAccuracyChanged(Sensor sensor, int accuracy) {}
+    };
+
+    private float countSpeed(ArrayList<Float> data) {
+        float speed = 0.00f;
+        Collections.reverse(data);
+        data.remove(0);
+        for (Float f : data) {
+            speed += f;
+            if (f < 3)
+                return speed / 50;
+        }
+        return speed / 50;
     }
 
     private void fillSettingsPanel(){

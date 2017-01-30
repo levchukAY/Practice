@@ -13,6 +13,14 @@
         <item>хук</item>
     </string-array>
 
+    <string-array name="punch_type_history_list">
+        <item>не важно</item>
+        <item>прямой</item>
+        <item>апперкот</item>
+        <item>боковой</item>
+        <item>хук</item>
+    </string-array>
+
     <string-array name="gloves_list">
         <item>перчатка</item>
         <item>нет</item>

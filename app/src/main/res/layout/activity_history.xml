@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_history"
     android:layout_width="match_parent"
@@ -10,6 +11,81 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.artioml.practice.HistoryActivity"
     android:orientation="vertical">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/settings_panel_height"
+        android:layout_marginBottom="@dimen/half_margin">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textSize="16sp"
+            android:textColor="@android:color/black"
+            android:background="@drawable/parameters_background"
+            android:padding="@dimen/fourth_margin"
+            android:layout_margin="@dimen/fourth_margin"
+            android:id="@+id/typeHistoryTextView" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="5"
+            android:background="@drawable/parameters_background"
+            android:padding="@dimen/fourth_margin"
+            android:layout_margin="@dimen/fourth_margin">
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/handsHistoryImageView"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:src="@drawable/ic_left_hand"
+                android:scaleType="fitCenter"
+                android:padding="2dp" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/glovesHistoryImageView"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:src="@drawable/ic_gloves_on"
+                android:scaleType="fitCenter"
+                android:padding="2dp" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/positionHistoryImageView"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:src="@drawable/ic_punch_with_step"
+                android:scaleType="fitCenter"
+                android:padding="2dp" />
+        </LinearLayout>
+
+        <ImageButton
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            app:srcCompat="@drawable/ic_settings_24dp"
+            android:id="@+id/settingsHistoryButton"
+            android:layout_weight="1.5"
+            android:layout_gravity="center"
+            android:background="@drawable/button_background_yellow"
+            android:scaleType="fitCenter"
+            android:layout_margin="@dimen/fourth_margin"
+            android:padding="@dimen/fourth_margin" />
+    </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"

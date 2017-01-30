@@ -1,11 +1,10 @@
-﻿package com.artioml.practice;
+package com.artioml.practice;
 
-import android.content.ClipData;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Canvas;
-import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
@@ -16,6 +15,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.artioml.practice.data.PracticeDatabaseHelper;
 import com.artioml.practice.data.DatabaseDescription.History;
@@ -23,18 +25,35 @@ import com.artioml.practice.data.DatabaseDescription.History;
 import java.util.ArrayList;
 import java.util.Collections;
 
+/**
+ * Created by Artiom L on 30.01.2017.
+ */
+
 public class HistoryActivity extends AppCompatActivity {
 
+    private static final String HISTORY_SETTINGS = "historySettings";
+    private static final String HAND = "pref_hand";
+    private static final String GLOVES = "pref_gloves";
+    private static final String POSITION = "pref_position";
+    private static final String PUNCH_TYPE = "pref_punchType";
+    private static final String SORT_ORDER = "pref_sortOrder";
+
     private ArrayList<Result> history;
-
     private HistoryAdapter adapter;
+    private SQLiteDatabase db;
 
-    private int selectedItem;
+    private String hand;
+    private String gloves;
+    private String position;
+    private int punchType;
+    private String sortOrder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history);
+
+        fillSettingsPanel();
 
         history = new ArrayList<>();
 
@@ -44,7 +63,19 @@ public class HistoryActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
         recyclerView.addItemDecoration(new ItemDivider(this));
 
+        db = (PracticeDatabaseHelper.getInstance(this)).getReadableDatabase();
         initHistory();
+
+        ImageButton settingsHistoryButton = (ImageButton) findViewById(R.id.settingsHistoryButton);
+        settingsHistoryButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                (new HistorySettingsDialog(HistoryActivity.this)).show();
+            }
+        });
+
+        //MenuItem speedMenuItem = (MenuItem) findViewById(R.id.speed_sort);
+        //Drawable icon = speedMenuItem.getIcon();
 
     }
 
@@ -58,6 +89,28 @@ public class HistoryActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+
+        SharedPreferences sharedPreferences =
+                getSharedPreferences(HISTORY_SETTINGS, Context.MODE_PRIVATE);
+        SharedPreferences.Editor edit = sharedPreferences.edit();
+        switch (item.getItemId()) {
+            case (R.id.speed_sort):
+                edit.putString(SORT_ORDER, History.COLUMN_SPEED + " DESC");
+                break;
+            case (R.id.reaction_sort):
+                edit.putString(SORT_ORDER, History.COLUMN_REACTION);
+                break;
+            case (R.id.acceleration_sort):
+                edit.putString(SORT_ORDER, History.COLUMN_ACCELERATION + " DESC");
+                break;
+            case (R.id.date_sort):
+                edit.putString(SORT_ORDER, History.COLUMN_DATE + " DESC");
+                break;
+        }
+        edit.apply();
+
+        sortOrder = sharedPreferences.getString(SORT_ORDER, History.COLUMN_DATE + " DESC");
+        initHistory();
         /*if (item.getItemId() == R.id.speed_sort ||
                 item.getItemId() == R.id.reaction_sort ||
                 item.getItemId() == R.id.acceleration_sort ||
@@ -89,7 +142,44 @@ public class HistoryActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    protected void onResume() {
+        fillSettingsPanel();
+        initHistory();
+        super.onResume();
+    }
+
     private void initHistory () {
+
+        history.clear();
+
+        ArrayList<String>  values = new ArrayList<>();
+        StringBuffer condition = new StringBuffer("");
+
+        if (punchType > 0) {
+            condition.append("AND " + History.COLUMN_PUNCH_TYPE + " = ? ");
+            values.add((punchType - 1) + "");
+        }
+        if (hand.compareTo("dm") != 0) {
+            condition.append("AND " + History.COLUMN_HAND + " = ? ");
+            values.add(hand);
+        }
+        if (gloves.compareTo("dm") != 0) {
+            condition.append("AND " + History.COLUMN_GLOVES + " = ? ");
+            values.add(gloves);
+        }
+        if (position.compareTo("dm") != 0) {
+            condition.append("AND position = ? ");
+            values.add(position);
+        }
+        String cond = null;
+        String[] vals = null;
+        if (condition.toString().compareTo("") != 0) {
+            cond = condition.toString().substring(4);
+            vals = new String[values.size()];
+            for (int i = 0; i < values.size(); i++)
+                vals[i] = values.get(i);
+        }
 
         String[] projection = {
                 History._ID,
@@ -103,16 +193,14 @@ public class HistoryActivity extends AppCompatActivity {
                 History.COLUMN_ACCELERATION,
                 History.COLUMN_DATE
         };
-
-        SQLiteDatabase db = (PracticeDatabaseHelper.getInstance(this)).getReadableDatabase();
         Cursor cursor = db.query(
-                History.TABLE_NAME,   // таблица
-                projection,            // столбцы
-                null,                  // столбцы для условия WHERE
-                null,                  // значения для условия WHERE
-                null,                  // Don't group the rows
-                null,                  // Don't filter by row groups
-                null);                   // порядок сортировки
+                History.TABLE_NAME,     // таблица
+                projection,             // столбцы
+                cond,                   // столбцы для условия WHERE
+                vals,                   // значения для условия WHERE
+                null,                   // Don't group the rows
+                null,                   // Don't filter by row groups
+                sortOrder);             // порядок сортировки
 
         while (cursor.moveToNext()) {
             history.add(new Result(
@@ -129,8 +217,33 @@ public class HistoryActivity extends AppCompatActivity {
         }
         cursor.close();
 
-        Collections.reverse(history);
         adapter.notifyDataSetChanged();
+    }
+
+    private void fillSettingsPanel(){
+        SharedPreferences sharedPreferences =
+                getSharedPreferences(HISTORY_SETTINGS, Context.MODE_PRIVATE);
+
+        sortOrder = sharedPreferences.getString(SORT_ORDER, History.COLUMN_DATE + " DESC");
+
+        punchType = sharedPreferences.getInt(PUNCH_TYPE, 0);
+        ((TextView) findViewById(R.id.typeHistoryTextView)).setText(getResources().getStringArray(
+                R.array.punch_type_history_list)[punchType]);
+
+        hand = sharedPreferences.getString(HAND, "dm");
+        ((ImageView) findViewById(R.id.handsHistoryImageView)).setImageDrawable(
+                ContextCompat.getDrawable(this, getResources().getIdentifier(
+                        "ic_" + hand + "_hand", "drawable", getPackageName())));
+
+        gloves = sharedPreferences.getString(GLOVES, "dm");
+        ((ImageView) findViewById(R.id.glovesHistoryImageView)).setImageDrawable(
+                ContextCompat.getDrawable(this, getResources().getIdentifier(
+                        "ic_gloves_" + gloves, "drawable", getPackageName())));
+
+        position = sharedPreferences.getString(POSITION, "dm");
+        ((ImageView) findViewById(R.id.positionHistoryImageView)).setImageDrawable(
+                ContextCompat.getDrawable(this, getResources().getIdentifier(
+                        "ic_punch_" + position + "_step", "drawable", getPackageName())));
     }
 
     class ItemDivider extends RecyclerView.ItemDecoration {
@@ -168,3 +281,4 @@ public class HistoryActivity extends AppCompatActivity {
         }
     }
 }
+

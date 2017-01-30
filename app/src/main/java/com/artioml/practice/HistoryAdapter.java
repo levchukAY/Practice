@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -78,12 +79,14 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
 
         holder.punchTypeTextView.setText(context.getResources().getStringArray(
                 R.array.punch_type_list)[currentResult.punchType]);
-        holder.dateTextView.setText(currentResult.date);
+        String date = currentResult.date;
+        holder.dateTextView.setText(
+                date.substring(6, 8) + "." + date.substring(3, 5) + "." + date.substring(0, 2));
         holder.speedTextView.setText(context.getString(R.string.speed_result, currentResult.speed));
         holder.reactionTextView.setText(
                 context.getString(R.string.reaction_result, currentResult.reaction));
-        holder.accelerationTextView.setText(
-                context.getString(R.string.acceleration_result, currentResult.acceleration));
+        holder.accelerationTextView.setText(Html.fromHtml(
+                context.getString(R.string.acceleration_result, currentResult.acceleration)));
         holder.weightTextView.setText(currentResult.glovesWeight);
 
         String hand = "ic_" + currentResult.hand + "_hand";

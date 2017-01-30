@@ -22,8 +22,6 @@ public class LicenseActivity extends AppCompatActivity {
     private static final String IS_FIRST_TIME = "pref_isFirstTime";
     private static final String IS_ACCEPTED = "pref_isAccepted";
 
-    private Button acceptButton;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,7 +29,7 @@ public class LicenseActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        acceptButton = (Button) findViewById(R.id.acceptButton);
+        Button acceptButton = (Button) findViewById(R.id.acceptButton);
 
         if (PreferenceManager.getDefaultSharedPreferences(this).getBoolean(IS_FIRST_TIME, true)) {
             getSupportActionBar().setDisplayShowHomeEnabled(false);

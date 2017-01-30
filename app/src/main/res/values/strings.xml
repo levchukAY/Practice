@@ -34,11 +34,11 @@
     <string name="acceleration_title">ускорение</string>
     <string name="speed_result">%.2f м/с</string>
     <string name="reaction_result">%.2f с</string>
-    <string name="acceleration_result">%.2f м/с^2<!--&lt;sup&gt;&lt;small&gt;&lt;small&gt;2&lt;/small&gt;&lt;/small&gt;&lt;/sup&gt;--></string>
+    <string name="acceleration_result">%.2f м/с&lt;sup&gt;&lt;small&gt;&lt;small&gt;2&lt;/small&gt;&lt;/small&gt;&lt;/sup&gt;</string>
 
     <!--history_item.xml-->
-    <string name="speed_title_h">Cкорость удара</string>
-    <string name="reaction_title_h">Cкорость реакции</string>
+    <string name="speed_title_h">cкорость удара</string>
+    <string name="reaction_title_h">cкорость реакции</string>
     <string name="title_activity_history">История</string>
 
     <!--menu_history.xml-->
@@ -46,6 +46,9 @@
     <string name="reaction_menu">Cкорость реакции</string>
     <string name="acceleration_menu">Ускорение</string>
     <string name="date_menu">Дата</string>
+
+    <!--dialog_history_settings.xml-->
+    <string name="doesnt_matter">не важно</string>
 
 
 </resources>

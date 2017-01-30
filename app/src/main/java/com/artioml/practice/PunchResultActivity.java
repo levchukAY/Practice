@@ -3,6 +3,7 @@ package com.artioml.practice;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -14,6 +15,7 @@ import android.support.v4.app.NavUtils;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Html;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageView;
@@ -78,13 +80,14 @@ public class PunchResultActivity extends AppCompatActivity {
         LinearLayout accelerationResultItem = (LinearLayout) findViewById(R.id.accelerationResultItem);
 
         ResultSeekBar punchSpeedSeekBar = (ResultSeekBar) speedResultItem.getChildAt(2);
-        punchSpeedSeekBar.setProgress((int) (speed));
+        punchSpeedSeekBar.setProgress((int) getProgress(speed, History.COLUMN_SPEED));
 
         ResultSeekBar reactionSpeedSeekBar = (ResultSeekBar) reactionResultItem.getChildAt(2);
-        reactionSpeedSeekBar.setProgress((int) (reactionSpeedSeekBar.getMax() - reaction));
+        reactionSpeedSeekBar.setProgress(
+                (int) (100 - getProgress(reaction, History.COLUMN_REACTION)));
 
         ResultSeekBar accelerationSeekBar = (ResultSeekBar) accelerationResultItem.getChildAt(2);
-        accelerationSeekBar.setProgress((int) acceleration);
+        accelerationSeekBar.setProgress((int) getProgress(acceleration, History.COLUMN_ACCELERATION));
 
         ((TextView) ((LinearLayout) speedResultItem.getChildAt(0)).getChildAt(0))
                 .setText(getString(R.string.speed_title));
@@ -99,7 +102,7 @@ public class PunchResultActivity extends AppCompatActivity {
         ((TextView) ((LinearLayout) accelerationResultItem.getChildAt(0)).getChildAt(0))
                 .setText(getString(R.string.acceleration_title));
         ((TextView) ((LinearLayout) accelerationResultItem.getChildAt(0)).getChildAt(1))
-                .setText(getString(R.string.acceleration_result, acceleration));
+                .setText(Html.fromHtml((getString(R.string.acceleration_result, acceleration))));
 
         initData();
         initSeekBarData(punchSpeedSeekBar);
@@ -107,8 +110,54 @@ public class PunchResultActivity extends AppCompatActivity {
         initSeekBarData(accelerationSeekBar);
     }
 
+    private float getProgress(float value, String column) {
+        SQLiteDatabase db = (PracticeDatabaseHelper.getInstance(this)).getReadableDatabase();
+
+        Cursor cursor = db.query(
+                History.TABLE_NAME,
+                new String[] {column},
+                column + " < ? ", new String[] {Float.toString(value)},
+                null, null, null);
+
+        float progress = cursor.getCount();
+
+        if (progress == 0)
+            return 50;
+
+        cursor = db.query(
+                History.TABLE_NAME,
+                new String[] {column},
+                null, null, null, null, null);
+
+        progress /= cursor.getCount();
+        cursor.close();
+        return progress * 100;
+    }
+
+    private float getAccelerationProgress(float acceleration) {
+        SQLiteDatabase db = (PracticeDatabaseHelper.getInstance(this)).getReadableDatabase();
+
+        Cursor cursor = db.query(
+                History.TABLE_NAME,
+                new String[] {History.COLUMN_ACCELERATION},
+                History.COLUMN_ACCELERATION + " < ? ", new String[] {Float.toString(speed)},
+                null, null, null);
+
+        float progress = cursor.getCount();
+
+        cursor = db.query(
+                History.TABLE_NAME,
+                new String[] {History.COLUMN_SPEED},
+                null, null, null, null, null);
+
+        progress /= cursor.getCount();
+        cursor.close();
+        return progress * 100;
+    }
+
     private void insertHistory() {
-        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yy", Locale.ROOT);
+        //SimpleDateFormat sdf = new SimpleDateFormat("ss.mm.HH.dd.MM.yy", Locale.ROOT);
+        SimpleDateFormat sdf = new SimpleDateFormat("yy.MM.dd HH.mm.ss", Locale.ROOT);
         Calendar calendar = Calendar.getInstance();
 
         SQLiteDatabase db = (PracticeDatabaseHelper.getInstance(this)).getWritableDatabase();
